@@ -10,6 +10,7 @@ export class PlayerCard extends ACard {
     public name: string;
     public passed_turn: boolean;
     public is_robot: boolean = false;
+    public total_lattes_sold: number = 0;
 
     constructor(d: DisplayManager) {
         super(d);
@@ -22,9 +23,10 @@ export class PlayerCard extends ACard {
     updateCardText(): void {
         let cardText: string = "";
         cardText += "Name: " + this.name + "\n";
-        cardText += "Money: " + this.money + "\n";
+        cardText += "Money: $" + this.money + "\n";
         cardText += "Inventory:\n" + commodity_text(this.inventory);
-        cardText += "\nPassed: " + this.passed_turn.toString().toUpperCase();
+        cardText += "\nLattes sold: " + this.total_lattes_sold + "\n";
+        cardText += "Passed: " + this.passed_turn.toString().toUpperCase();
         this.setCardText(cardText);
     }
 
@@ -38,6 +40,7 @@ export class PlayerCard extends ACard {
         for (let i = 0; i < this.inventory.length; i++) {
             this.inventory[i] -= 1;
         }
+        this.total_lattes_sold += 1;
         return true;
     }
 

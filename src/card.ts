@@ -1,6 +1,6 @@
 import * as utils from "./utils.js";
-import {DisplayManager} from "./DisplayManager.js";
-import {alphabet, card_fg_active, card_fg_inactive, logger} from "./utils.js";
+import {DisplayManager} from "./displaymanager.js";
+import {alphabet, card_fg_active, card_fg_inactive} from "./utils.js";
 
 
 export class ACard {

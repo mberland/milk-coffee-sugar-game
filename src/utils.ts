@@ -1,7 +1,3 @@
-// import {Display} from "../lib/index.js";
-
-// export const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
-
 import {LogManager} from "./logmanager.js";
 
 export const BAD_NUMBER = -28768;
@@ -18,21 +14,24 @@ export function commodity_text(inventory: number[]) {
 
 export enum Patch {Empty, Wall, Floor}
 
-export const dimensions = {width: 70, height: 30};
+export const dimensions = {width: 68, height: 40};
+export const card_dimensions = {width: dimensions.width, height: 30};
+export const x_buffer: number = 1;
+export const y_buffer: number = 1;
 export const total_cards: number = 3;
 export const max_commodity_count = 3;
-export const box_width: number = Math.floor(dimensions.width / 2);
-export const box_height: number = Math.floor(dimensions.height / 2);
-export const card_width: number = Math.floor(dimensions.width / total_cards);
-export const card_height: number = Math.floor(dimensions.height / 2);
-export const x_buffer: number = 2;
-export const y_buffer: number = 1;
+export const box_width: number = Math.floor(card_dimensions.width / 2);
+export const box_height: number = Math.floor(card_dimensions.height / 2);
+export const card_width: number = Math.floor(card_dimensions.width / total_cards);
+export const card_height: number = Math.floor(card_dimensions.height / 2);
+export const button_width: number = Math.floor(card_width * total_cards / 5);
+export const button_height: number = Math.floor(dimensions.height - (box_height + card_height));
+export const lattes_to_win: number = 5;
 export const alphabet = "abcdefghijklmnopqrstuvqxyz";
 export const consonants = "bcdfghjklmnpqrstvwxyz";
 export const vowels = "aeiou";
 export const card_fg_active: string = "white";
 export const card_fg_inactive: string = "#555555";
-// export const card_bg: string = "goldenrod";
 
 export const logger: LogManager = new LogManager();
 
@@ -59,23 +58,14 @@ export function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// export enum PatchType {Empty, Wall, Floor}
-
-// export class Patch {
-//
-//     private readonly _p_type: PatchType;
-//
-//     constructor(p: PatchType) {this._p_type = p;}
-//
-//     stringify(): string {
-//         return this.patchString(this._p_type);
-//     }
-//
-//     patchString(p_type: PatchType): string {
-//         switch (p_type) {
-//             case PatchType.Empty: return ' ';
-//             case PatchType.Wall: return '#';
-//             case PatchType.Floor: return '.';
-//         }
-//     }
-// }
+export function newlineAString(s: string): string {
+    let new_s: string = "";
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] == " ") {
+            new_s += "\n";
+        } else {
+            new_s += s[i];
+        }
+    }
+    return new_s;
+}

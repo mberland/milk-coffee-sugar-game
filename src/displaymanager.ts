@@ -1,4 +1,4 @@
-import {dimensions, logger, Patch, x_buffer} from "./utils.js"
+import {dimensions, Patch, x_buffer} from "./utils.js"
 import {Display} from "../lib/index.js"
 
 // import {KEYS} from "../lib/constants.js"
@@ -12,20 +12,6 @@ export class DisplayManager {
         this.d = new Display(dimensions);
         let div = document.createElement("div");
         div.id = "rot";
-
-
-        // document.body.addEventListener("keydown", function (e) {
-        //     let code = e.keyCode;
-        //
-        //     let vk = "?"; /* find the corresponding constant */
-        //     for (let name in KEYS) {
-        //         if (KEYS[name] == code && name.indexOf("VK_") == 0) {
-        //             vk = name;
-        //         }
-        //     }
-        //
-        //     logger.log("Keydown: code is " + code + " (" + vk + ")");
-        // });
         document.body.appendChild(div);
         div.appendChild(this.d.getContainer());
     }
@@ -71,13 +57,5 @@ export class DisplayManager {
                 this.draw(x + x_buffer + col, y + x_buffer + row, c, fg, "black");
             }
         }
-        // for (let i = 0; i < text.length; i++) {
-        //     if (i > col_window * row_window) {
-        //         return;
-        //     }
-        //     let tx = (i % col_window) + x_buffer;
-        //     let ty = Math.floor(i / col_window) + x_buffer;
-        //     this.d.draw(x + tx, y + ty, text[i], fg, "black");
-        // }
     }
 }

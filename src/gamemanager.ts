@@ -3,13 +3,21 @@ import {ACard} from "./card.js";
 import {PlayerCard} from "./playercard.js";
 import {RobotCard} from "./robotplayer.js";
 import {
+    box_height,
+    box_width,
+    button_height,
+    button_width,
     card_height,
     card_width,
+    commodities,
+    commodity_text,
+    dimensions,
+    lattes_to_win,
     logger,
-    box_width,
+    max_commodity_count,
     total_cards,
     x_buffer,
-    y_buffer, box_height, commodities, commodity_text, max_commodity_count, delay
+    y_buffer
 } from "./utils.js";
 
 
@@ -26,6 +34,10 @@ export class GameManager {
     current_bidder: number = -1;
     current_commodity: number = -1;
     current_latte_price: number = 3;
+    current_options: string[] = [];
+    buttons: ACard[] = [];
+    private game_over: boolean;
+    private winner: string;
 
     constructor() {
         this.d = new DisplayManager();
@@ -40,25 +52,35 @@ export class GameManager {
         if (this.current_commodity >= 0) {
             this.inventory_box_text += "\nCurrent Commodity: " + commodities[this.current_commodity];
             this.inventory_box_text += "\nCurrent Bid: " + this.current_bid;
+            this.inventory_box_text += "\nCurrent Bidder: " + this.cards[this.current_bidder].name;
         }
         this.inventory_box.setCardText(this.inventory_box_text);
         this.inventory_box.draw();
     }
 
     updateGame(): void {
+        this.current_options = [];
         this.gameplay_box_text = "Actions (P" + (1 + this.current_player) + " - " + this.cards[this.current_player].name + "):";
         for (let i = 0; i < commodities.length; i++) {
             this.gameplay_box_text += "\n" + (i + 1) + ". ";
             if (this.inventory[i] > 0) {
+                let option_text = "";
                 if (i == this.current_commodity) {
-                    this.gameplay_box_text += "Upbid " + commodities[i] + " ($" + (this.current_bid + 1) + ")";
+                    option_text = "Upbid " + commodities[i] + " ($" + (this.current_bid + 1) + ")";
+                    this.gameplay_box_text += option_text;
                 } else if (-1 == this.current_commodity) {
-                    this.gameplay_box_text += "Bid " + commodities[i];
+                    option_text = "Bid " + commodities[i];
+                    this.gameplay_box_text += option_text;
                 }
+                this.current_options.push(option_text);
+            } else {
+                this.current_options.push("");
             }
         }
 
         this.gameplay_box_text += "\n4. Pass (All Pass => Stock+)\n5. Sell Latte (1M 1C 1S)";
+        this.current_options.push("Pass");
+        this.current_options.push("Sell Latte");
         this.gameplay_box_text += "\n\nCurrent Latte Price: $" + this.current_latte_price;
         this.gameplay_box.setCardText(this.gameplay_box_text);
         this.gameplay_box.draw();
@@ -77,6 +99,10 @@ export class GameManager {
             (this.cards)[card_index].setupCard(i * card_width, card_height, card_width - x_buffer, card_height - x_buffer, "white", "green");
             card_index++;
         }
+        for (let i = 0; i < 5; i++) {
+            (this.buttons)[i] = new ACard(this.d);
+            (this.buttons)[i].setupCard(i * button_width, dimensions.height - button_height - y_buffer, button_width - 1, button_height - y_buffer, "white", "yellow");
+        }
     }
 
     showAllCards(): void {
@@ -88,6 +114,10 @@ export class GameManager {
             else
                 this.cards[i].active = false;
             (this.cards)[i].updateCard();
+        }
+        for (let i = 0; i < this.buttons.length; i++) {
+            (this.buttons)[i].setCardText(this.current_options[i]);
+            (this.buttons)[i].draw();
         }
     }
 
@@ -156,6 +186,17 @@ export class GameManager {
         return true;
     }
 
+    doWinCheck(): boolean {
+        for (let i = 0; i < this.cards.length; i++) {
+            if (this.cards[i].total_lattes_sold >= lattes_to_win) {
+                this.game_over = true;
+                this.winner = this.cards[i].name;
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     doRoundCheck(): void {
         let all_passed: boolean = true;
@@ -191,13 +232,18 @@ export class GameManager {
                     actions.push(i + 1);
                 }
             }
-        } else if (this.current_bidder != this.current_player) {
+        } else if (this.current_bidder != this.current_player && !this.cards[this.current_player].passed_turn) {
             actions.push(this.current_commodity + 1);
         }
         return actions;
     }
 
     async handleInput(s: string): Promise<void> {
+        logger.log("Player " + (this.current_player + 1) + ": " + s);
+        if (this.doWinCheck()) {
+            logger.message(this.winner + " wins!");
+            return;
+        }
         if (s === "1" || s === "2" || s === "3") {
             this.doBid(s);
         } else if (s === "4") {
