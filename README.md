@@ -12,3 +12,5 @@ on macs, the easiest way to compile and run this, i believe is:
 1. play!
 
 designed by asher, a 12 year old! (my child, not me. he doesn't have a github yet.)
+
+(it may not work, sorry. he's 12. it works for us. YMMV, no support implied or anything. i mean, if you do get support, it'll be from a 12 year old, so, like, take it with a grain of salt.)
