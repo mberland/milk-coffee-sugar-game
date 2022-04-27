@@ -1,14 +1,15 @@
 import * as utils from "./utils.js";
-import {DisplayManager} from "./displaymanager.js";
 import {alphabet, card_fg_active, card_fg_inactive} from "./utils.js";
+import {DisplayManager} from "./displaymanager.js";
 
 
 export class ACard {
     protected d: DisplayManager;
+    public name: string;
     protected fg_active: string = card_fg_active;
     protected fg_inactive: string = card_fg_inactive;
     bg: string = "black";
-    protected card_text: string = alphabet;
+    card_text: string = alphabet;
     cx: number = utils.BAD_NUMBER;
     cy: number = utils.BAD_NUMBER;
     protected width: number = utils.BAD_NUMBER;
@@ -25,6 +26,10 @@ export class ACard {
             return this.fg_active;
         else
             return this.fg_inactive;
+    }
+
+    contains(x: number, y: number): boolean {
+        return (x >= this.cx && x < (this.cx + this.width) && y >= this.cy && y < (this.cy + this.height));
     }
 
     draw(): void {

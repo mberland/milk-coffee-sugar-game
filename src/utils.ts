@@ -59,13 +59,5 @@ export function delay(ms: number) {
 }
 
 export function newlineAString(s: string): string {
-    let new_s: string = "";
-    for (let i = 0; i < s.length; i++) {
-        if (s[i] == " ") {
-            new_s += "\n";
-        } else {
-            new_s += s[i];
-        }
-    }
-    return new_s;
+    return s.replace(/ /g, "\n");
 }

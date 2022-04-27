@@ -58,4 +58,8 @@ export class DisplayManager {
             }
         }
     }
+
+    eventToPosition(e: TouchEvent | MouseEvent): [number, number] {
+        return this.d.eventToPosition(e);
+    }
 }

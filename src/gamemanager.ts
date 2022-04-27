@@ -3,6 +3,7 @@ import {ACard} from "./card.js";
 import {PlayerCard} from "./playercard.js";
 import {RobotCard} from "./robotplayer.js";
 import {
+    BAD_NUMBER,
     box_height,
     box_width,
     button_height,
@@ -15,6 +16,7 @@ import {
     lattes_to_win,
     logger,
     max_commodity_count,
+    newlineAString,
     total_cards,
     x_buffer,
     y_buffer
@@ -41,6 +43,7 @@ export class GameManager {
 
     constructor() {
         this.d = new DisplayManager();
+
         this.gameplay_box = new ACard(this.d);
         this.inventory_box = new ACard(this.d);
         this.setup();
@@ -116,7 +119,7 @@ export class GameManager {
             (this.cards)[i].updateCard();
         }
         for (let i = 0; i < this.buttons.length; i++) {
-            (this.buttons)[i].setCardText(this.current_options[i]);
+            (this.buttons)[i].setCardText(newlineAString(this.current_options[i]));
             (this.buttons)[i].draw();
         }
     }
@@ -236,6 +239,20 @@ export class GameManager {
             actions.push(this.current_commodity + 1);
         }
         return actions;
+    }
+
+    handleClick(e: MouseEvent | TouchEvent) {
+        let x: number = BAD_NUMBER;
+        let y: number = BAD_NUMBER;
+        [x, y] = this.d.eventToPosition(e);
+        // logger.log("NOT IMPLEMENTED: x: " + x + " y: " + y);
+// TODO: do buttons
+        for (let i = 0; i < this.buttons.length; i++) {
+            if (this.buttons[i].contains(x, y)) {
+                logger.log(this.buttons[i].card_text);
+                return;
+            }
+        }
     }
 
     async handleInput(s: string): Promise<void> {

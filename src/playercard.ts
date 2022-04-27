@@ -7,7 +7,6 @@ import {commodity_text, random_name} from "./utils.js";
 export class PlayerCard extends ACard {
     inventory: number[]; // milk, coffee, sugar
     public money: number;
-    public name: string;
     public passed_turn: boolean;
     public is_robot: boolean = false;
     public total_lattes_sold: number = 0;
