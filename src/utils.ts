@@ -14,18 +14,26 @@ export function commodity_text(inventory: number[]) {
 
 export enum Patch {Empty, Wall, Floor}
 
-export const dimensions = {width: 68, height: 40};
-export const card_dimensions = {width: dimensions.width, height: 30};
+export const dimensions = {width: 60, height: 40};
+export const info_area_dimensions = {width: dimensions.width, height: 13};
+export const card_area_dimensions = {width: dimensions.width, height: 12};
+export const button_area_dimensions = {width: dimensions.width, height: 10};
+export const help_area_dimensions = {width: dimensions.width, height: 6};
 export const x_buffer: number = 1;
 export const y_buffer: number = 1;
 export const total_cards: number = 3;
 export const max_commodity_count = 3;
-export const box_width: number = Math.floor(card_dimensions.width / 2);
-export const box_height: number = Math.floor(card_dimensions.height / 2);
-export const card_width: number = Math.floor(card_dimensions.width / total_cards);
-export const card_height: number = Math.floor(card_dimensions.height / 2);
-export const button_width: number = Math.floor(card_width * total_cards / 5);
-export const button_height: number = Math.floor(dimensions.height - (box_height + card_height));
+export const box_width: number = Math.floor(info_area_dimensions.width / 2);
+export const box_height: number = info_area_dimensions.height;
+export const card_width: number = Math.floor(card_area_dimensions.width / total_cards);
+export const card_height: number = card_area_dimensions.height;
+export const button_y: number = card_height + box_height - 2 * y_buffer;
+export const button_width: number = Math.floor(card_width * total_cards / 5) - 1;
+export const button_height: number = button_area_dimensions.height;
+export const help_width: number = dimensions.width;
+export const help_height: number = help_area_dimensions.height;
+export const help_x: number = 0;
+export const help_y: number = button_y + button_height;
 export const lattes_to_win: number = 5;
 export const alphabet = "abcdefghijklmnopqrstuvqxyz";
 export const consonants = "bcdfghjklmnpqrstvwxyz";

@@ -43,11 +43,16 @@ export class DisplayManager {
         }
     }
 
-    drawTextInBox(text: string, x: number, y: number, width: number, height: number, fg: string): void {
+    drawTextInBox(text: string, x: number, y: number, width: number, height: number, fg: string, vcenter: boolean = true): void {
         let row_window = height - 2 * x_buffer;
         let col_window = width - 2 * x_buffer;
         let cc = 0;
-        for (let row = 0; row < row_window; row++) {
+        let start_row = 0;
+        if (vcenter) {
+            let total_rows = text.split("\n").length;
+            start_row = Math.floor((row_window - total_rows) / 2);
+        }
+        for (let row = start_row; row < row_window; row++) {
             for (let col = 0; col < col_window; col++) {
                 let c = text[cc];
                 cc += 1;

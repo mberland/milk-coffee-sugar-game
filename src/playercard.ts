@@ -1,6 +1,6 @@
 import {ACard} from "./card.js";
 import {DisplayManager} from "./displaymanager.js";
-import {commodity_text, random_name} from "./utils.js";
+import {commodity_text} from "./utils.js";
 
 // import {logger} from "./utils.js";
 
@@ -15,7 +15,7 @@ export class PlayerCard extends ACard {
         super(d);
         this.inventory = [0, 0, 0];
         this.money = 10;
-        this.name = random_name();
+        this.name = "Player";
         this.passed_turn = false;
     }
 
@@ -25,16 +25,23 @@ export class PlayerCard extends ACard {
         cardText += "Money: $" + this.money + "\n";
         cardText += "Inventory:\n" + commodity_text(this.inventory);
         cardText += "\nLattes sold: " + this.total_lattes_sold + "\n";
-        cardText += "Passed: " + this.passed_turn.toString().toUpperCase();
+        if (this.passed_turn)
+            cardText += "Passed turn";
         this.setCardText(cardText);
     }
 
-    sellLatte(current_price: number): boolean {
+    canSell(): boolean {
         for (let i = 0; i < this.inventory.length; i++) {
             if (this.inventory[i] < 1) {
                 return false;
             }
         }
+        return true;
+    }
+
+    sellLatte(current_price: number): boolean {
+        if (!this.canSell())
+            return false;
         this.money += current_price;
         for (let i = 0; i < this.inventory.length; i++) {
             this.inventory[i] -= 1;

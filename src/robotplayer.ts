@@ -1,10 +1,12 @@
 import {PlayerCard} from "./playercard.js";
 import {DisplayManager} from "./displaymanager.js";
+import {random_name} from "./utils.js";
 
 export class RobotCard extends PlayerCard {
     constructor(d: DisplayManager) {
         super(d);
         this.is_robot = true;
+        this.name = random_name();
     }
 
     can_sell(): boolean {

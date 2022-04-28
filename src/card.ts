@@ -32,12 +32,12 @@ export class ACard {
         return (x >= this.cx && x < (this.cx + this.width) && y >= this.cy && y < (this.cy + this.height));
     }
 
-    draw(): void {
+    draw(vcenter: boolean = true): void {
         if (!this.is_created) {
             return;
         }
         this.d.drawBox(this.cx, this.cy, this.width, this.height, this.bg);
-        this.d.drawTextInBox(this.card_text, this.cx, this.cy, this.width, this.height, this.getFG());
+        this.d.drawTextInBox(this.card_text, this.cx, this.cy, this.width, this.height, this.getFG(), vcenter);
     }
 
     setupCard(x: number, y: number, width: number, height: number, fg: string, bg: string): void {

@@ -14,7 +14,7 @@ document.body.addEventListener("click", function (e) {
     g.handleClick(e);
 });
 
-document.body.addEventListener('touchstart', function (e) {
+document.body.addEventListener("touchstart", function (e) {
     if (1 == e.touches.length) {
         g.handleClick(e);
     }
