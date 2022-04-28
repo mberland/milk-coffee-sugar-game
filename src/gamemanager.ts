@@ -300,7 +300,8 @@ export class GameManager {
     async handleInput(s: string): Promise<void> {
         // logger.log("Player " + (this.current_player + 1) + ": " + s);
         if (this.doWinCheck()) {
-            this.help_box_text = this.winner + " wins!";
+            this.help_box_text = "Game over!!\n" + this.winner + " wins!";
+            this.showAllCards();
             return;
         }
         if (s === "1" || s === "2" || s === "3") {
