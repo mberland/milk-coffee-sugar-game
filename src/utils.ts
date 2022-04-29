@@ -14,26 +14,36 @@ export function commodity_text(inventory: number[]) {
 
 export enum Patch {Empty, Wall, Floor}
 
-export const dimensions = {width: 60, height: 40};
-export const info_area_dimensions = {width: dimensions.width, height: 13};
-export const card_area_dimensions = {width: dimensions.width, height: 12};
-export const button_area_dimensions = {width: dimensions.width, height: 10};
-export const help_area_dimensions = {width: dimensions.width, height: 6};
-export const x_buffer: number = 1;
-export const y_buffer: number = 1;
 export const total_cards: number = 3;
+export const total_buttons: number = 5;
+export const total_info: number = 2;
+const x_dimension_multiplier: number = 2;
+const y_dimension_multiplier: number = 8;
+export const even_width: number = x_dimension_multiplier * total_cards * total_buttons * total_info;
+export const even_height: number = y_dimension_multiplier * 6; // 6 rows
+export const dimensions = {width: even_width, height: even_height};
+export const info_area_dimensions = {width: dimensions.width, height: Math.floor(dimensions.height / 3)};
+export const card_area_dimensions = {width: dimensions.width, height: info_area_dimensions.height};
+export const button_area_dimensions = {width: dimensions.width, height: Math.floor(dimensions.height / 6)};
+export const help_area_dimensions = {width: dimensions.width, height: button_area_dimensions.height};
+// export const x_buffer: number = 1;
+// export const y_buffer: number = 0;
 export const max_commodity_count = 3;
 export const box_width: number = Math.floor(info_area_dimensions.width / 2);
 export const box_height: number = info_area_dimensions.height;
 export const card_width: number = Math.floor(card_area_dimensions.width / total_cards);
 export const card_height: number = card_area_dimensions.height;
-export const button_y: number = card_height + box_height - 2 * y_buffer;
-export const button_width: number = Math.floor(card_width * total_cards / 5) - 1;
+export const button_width: number = Math.floor(card_width * total_cards / 5);
 export const button_height: number = button_area_dimensions.height;
 export const help_width: number = dimensions.width;
 export const help_height: number = help_area_dimensions.height;
-export const help_x: number = 0;
+
+
+export const box_y: number = 0;
+export const card_y: number = box_y + box_height;
+export const button_y: number = card_y + card_height;
 export const help_y: number = button_y + button_height;
+
 export const lattes_to_win: number = 5;
 export const alphabet = "abcdefghijklmnopqrstuvqxyz";
 export const consonants = "bcdfghjklmnpqrstvwxyz";

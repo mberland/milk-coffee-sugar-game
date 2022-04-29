@@ -1,4 +1,4 @@
-import {dimensions, Patch, x_buffer} from "./utils.js"
+import {dimensions, Patch} from "./utils.js"
 import {Display} from "../lib/index.js"
 
 // import {KEYS} from "../lib/constants.js"
@@ -7,13 +7,12 @@ import {Display} from "../lib/index.js"
 export class DisplayManager {
     d: Display;
     PatchChar: string[] = [" ", "#", "."];
+    protected _ctx: HTMLCanvasElement;
 
     constructor() {
         this.d = new Display(dimensions);
-        let div = document.createElement("div");
-        div.id = "rot";
-        document.body.appendChild(div);
-        div.appendChild(this.d.getContainer());
+        this._ctx = this.d.getContainer() as HTMLCanvasElement;
+        document.body.appendChild(this.d.getContainer());
     }
 
     draw(x: number, y: number, c: string, fg: string, bg: string): void {
@@ -44,8 +43,8 @@ export class DisplayManager {
     }
 
     drawTextInBox(text: string, x: number, y: number, width: number, height: number, fg: string, vcenter: boolean = true): void {
-        let row_window = height - 2 * x_buffer;
-        let col_window = width - 2 * x_buffer;
+        let row_window = height - 2;
+        let col_window = width - 2;
         let cc = 0;
         let start_row = 0;
         if (vcenter) {
@@ -59,7 +58,7 @@ export class DisplayManager {
                 if (c == "\n") {
                     break;
                 }
-                this.draw(x + x_buffer + col, y + x_buffer + row, c, fg, "black");
+                this.draw(x + col + 1, y + row + 1, c, fg, "black");
             }
         }
     }

@@ -1,5 +1,14 @@
+/*canvas {*/
+/*    height: 50%;*/
+/*}*/
+
 body {
     background: black;
+    text-align: center;
+}
+
+canvas {
+    height: 80vh;
 }
 
 div {
@@ -7,5 +16,6 @@ div {
 }
 
 div#docLog {
+    font-family: monospace;
     color: white;
 }
